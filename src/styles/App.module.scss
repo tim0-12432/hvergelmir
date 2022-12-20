@@ -1,17 +1,21 @@
 .app {
+    &.dark {
+        --bg: #222;
+        --bg-acc: #444;
+        --fg: #fff;
+    }
+    &.light {
+        --bg: #ccc;
+        --bg-acc: #aaa;
+        --fg: #222;
+    }
+
     position: relative;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-
-    &.dark {
-        background-color: #222;
-        color: #fff;
-    }
-    &.light {
-        background-color: #ccc;
-        color: #222;
-    }
+    background-color: var(--bg);
+    color: var(--fg);
 }
 
 .gui, .env {

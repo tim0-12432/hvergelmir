@@ -1,3 +1,6 @@
+import { MeshProps } from "@react-three/fiber";
+import React from "react";
+
 type SphereProps = {
     radius: number;
     xPos: number;
@@ -6,15 +9,15 @@ type SphereProps = {
     color: string;
 }
 
-function Sphere(props: SphereProps) {
+const Sphere = React.forwardRef((props: SphereProps, ref: any) => {
     const { radius, xPos, yPos, zPos, color } = props;
 
     return (
-        <mesh position={[xPos, yPos, zPos]}>
+        <mesh ref={ref} position={[xPos, yPos, zPos]}>
             <sphereGeometry attach="geometry" args={[radius, 32, 16]} />
             <meshLambertMaterial attach="material" color={color} />
         </mesh>
     );
-}
+});
 
 export default Sphere;

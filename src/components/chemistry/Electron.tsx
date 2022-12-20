@@ -1,3 +1,5 @@
+import { Point } from '@react-three/drei';
+import React from 'react';
 import Sphere from '../geometry/Sphere';
 
 type ElectronProps = {
@@ -7,12 +9,18 @@ type ElectronProps = {
     active?: boolean;
 }
 
-function Electron(props: ElectronProps) {
-    return <Sphere
-        {...props}
-        radius={0.25}
-        color={props.active ? "yellow" : "blue"}
-    />;
-}
+const Electron = React.forwardRef((props: ElectronProps, ref: any) => {
+    return (
+        <group
+            ref={ref}
+        >
+            <Sphere
+                {...props}
+                radius={0.25}
+                color={props.active ? "yellow" : "blue"}
+            />
+        </group>
+    );
+});
 
 export default Electron;
