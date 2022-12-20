@@ -1,8 +1,9 @@
 import { Stats } from "@react-three/drei";
-import Element from "../types/Element";
+import Element, { Period } from "../types/Element";
 import PeriodicTable from "./chemistry/PeriodicTable";
 import styles from "../styles/Gui.module.scss";
 import { useEffect, useState } from "react";
+import PeriodicTableEntry from "./chemistry/PeriodicTableEntry";
 
 type GuiProps = {
     className?: string;
@@ -25,6 +26,19 @@ function Gui(props: GuiProps) {
             setIsDebug(false);
         }
     }, []);
+
+    const getChar = (period: Period) => {
+        switch (period) {
+            case 1: return "K";
+            case 2: return "L";
+            case 3: return "M";
+            case 4: return "N";
+            case 5: return "O";
+            case 6: return "P";
+            case 7: return "Q";
+            default: return "-";
+        }
+    };
 
     return (
         <div className={`${props.className} ${styles.container}`}>
@@ -53,9 +67,12 @@ function Gui(props: GuiProps) {
             </div>
             <div className={styles.info}>
                 <p>Series: <span>{selected.series}</span></p>
-                <p>Period: <span>{selected.period}</span></p>
+                <p>Period: <span>{selected.period} ({getChar(selected.period)})</span></p>
                 <p>Group: <span>{selected.group}</span></p>
                 <p>Atomic Mass: <span>{selected.atomicMass}u</span></p>
+            </div>
+            <div className={styles.elemContainer}>
+                <PeriodicTableEntry element={selected} />
             </div>
             <div className={styles.themeContainer}>
                 <button

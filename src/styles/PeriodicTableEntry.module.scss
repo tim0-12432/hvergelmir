@@ -1,0 +1,27 @@
+.container {
+    position: relative;
+    border: 2px solid var(--fg);
+    min-width: 3.5rem;
+    max-height: 100%;
+    border-radius: 5px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 3px 5px rgba(0, 0, 0, 0.5);
+    padding: .5rem;
+    aspect-ratio: 5/6;
+
+    .h1 {
+        font-size: 2rem;
+        font-weight: bolder;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .h2 {
+        font-size: .8rem;
+        font-weight: bolder;
+        position: absolute;
+        top: .25rem;
+        left: .15rem;
+    }
+}
