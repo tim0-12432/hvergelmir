@@ -1,7 +1,17 @@
 {
   "name": "hvergelmir",
+  "author": {
+    "name": "Tim0_12432",
+    "url": "https://github.com/tim0-12432"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/tim0-12432/hvergelmir"
+  },
+  "homepage": "https://tim0-12432.github.io/hvergelmir",
+  "license": "MIT",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host",

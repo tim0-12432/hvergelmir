@@ -3,11 +3,13 @@
         --bg: #222;
         --bg-acc: #444;
         --fg: #fff;
+        --acc: #6666ba;
     }
     &.light {
         --bg: #bababa;
         --bg-acc: #aaa;
         --fg: #222;
+        --acc: #6666ba;
     }
 
     position: relative;
@@ -27,4 +29,23 @@
 .env {
     width: 100%;
     height: 100%;
+}
+
+.footer {
+    position: absolute;
+    padding: .7rem 2rem;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    text-align: center;
+    text-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+
+    > a, > a:active {
+        text-decoration: none;
+        color: var(--acc);
+        transition: text-decoration 200ms ease-in-out;
+    }
+    > a:hover, > a:focus {
+        text-decoration: underline;
+    }
 }

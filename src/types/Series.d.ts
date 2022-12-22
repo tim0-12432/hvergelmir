@@ -1,13 +1,14 @@
 export type Series =
-    "Alkali Metals" |
-    "Alkaline Earth Metals" |
-    "Transition Metals" |
-    "Other Metals" |
-    "Other Nonmetals" |
-    "Halogens" |
-    "Noble Gases" |
-    "Lanthanides" |
-    "Metalloids" |
-    "Actinides";
+    "diatomic nonmetal" |
+    "noble gas" |
+    "alkali metal" |
+    "alkaline earth metal" |
+    "metalloid" |
+    "polyatomic nonmetal" |
+    "post-transition metal" |
+    "transition metal" |
+    "lanthanide" |
+    "actinide" |
+    "unknown";
 
 export default Series;

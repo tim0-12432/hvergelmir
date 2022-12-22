@@ -46,7 +46,7 @@ function Gui(props: GuiProps) {
             <div className={styles.selectContainer}>
                 <select
                     className={styles.select}
-                    defaultValue={selected.id}
+                    defaultValue={selected.symbol}
                     onChange={(e) => {
                         onSelect(e.target.value);
                         e.currentTarget.blur();
@@ -55,21 +55,26 @@ function Gui(props: GuiProps) {
                 {
                     PeriodicTable
                         .sort((a, b) => {
-                            return ("" + a.id).localeCompare(b.id);
+                            return ("" + a.symbol).localeCompare(b.symbol);
                         })
                         .map((element: Element, index) => {
-                            return <option key={index} value={element.id}>
-                                {`${element.name} (${element.id})`}
+                            return <option key={index} value={element.symbol}>
+                                {`${element.name} (${element.symbol})`}
                             </option>
                         })
                 }
                 </select>
             </div>
             <div className={styles.info}>
-                <p>Series: <span>{selected.series}</span></p>
+                <p>Series: <span>{selected.category}</span></p>
                 <p>Period: <span>{selected.period} ({getChar(selected.period)})</span></p>
-                <p>Group: <span>{selected.group}</span></p>
-                <p>Atomic Mass: <span>{selected.atomicMass}u</span></p>
+                <p>Atomic Number: <span>{selected.number}</span></p>
+                <p>Atomic Mass: <span>{selected.atomic_mass}u</span></p>
+                <p>Electrons: <span>{selected.shells.join(", ")}</span></p>
+                <p>Phase: <span>{selected.phase}</span></p>
+                {selected.boil !== null && <p>Boiling Point: <span>{selected.boil}K</span></p>}
+                {selected.melt !== null && <p>Melting Point: <span>{selected.melt}K</span></p>}
+                <p>Density: <span>{selected.density}</span></p>
             </div>
             <div className={styles.elemContainer}>
                 <PeriodicTableEntry element={selected} />

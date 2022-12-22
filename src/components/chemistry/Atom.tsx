@@ -19,34 +19,32 @@ function Atom(props: AtomProps) {
 
     useEffect(() => {
         const elem = props.element;
-        setPortalRefs([...(Array(elem.electronAmount).fill(undefined).map((_, i) => portalRefs[i] || createRef()))]);
+        setPortalRefs([...(Array(elem.number).fill(undefined).map((_, i) => portalRefs[i] || createRef()))]);
 
         const electronOrder = [];
-        for (let i = 0; i < elem.electronAmount; i++) {
-            if (i > elem.electronAmount - 1 - elem.group) {
-                electronOrder.push(1);
-            } else {
-                electronOrder.push(0);
+        for (let i = 0; i < elem.shells.length; i++) {
+            for (let j = 0; j < elem.shells[i]; j++) {
+                electronOrder.push(i);
             }
         }
         electronOrder.sort(() => Math.random() - 0.5);
         const newElectrons: JSX.Element[] = [];
         electronOrder.forEach((value, index) => {
-            const distance = value === 1 ? 15 : 12;
-            const theta = Math.acos(-1 + (2 * index + 1) / elem.electronAmount);
-            const phi = Math.sqrt(elem.electronAmount * Math.PI) * theta;
+            const distance = 10 + 2 * value;
+            const theta = Math.acos(-1 + (2 * index + 1) / elem.number);
+            const phi = Math.sqrt(elem.number * Math.PI) * theta;
             const xPos = distance * Math.cos(phi) * Math.sin(theta);
             const yPos = distance * Math.sin(phi) * Math.sin(theta);
             const zPos = distance * Math.cos(theta);
 
-            if (value === 1) {
-                newElectrons.push(<Electron ref={portalRefs[index]} key={`electron-${index}`} xPos={xPos} yPos={yPos} zPos={zPos} active={true} />);
+            if (value == elem.shells.length - 1) {
+                newElectrons.push(<Electron ref={portalRefs[index]} key={`electron-${value}-${index}`} xPos={xPos} yPos={yPos} zPos={zPos} active={true} />);
             } else {
-                newElectrons.push(<Electron ref={portalRefs[index]} key={`electron-${index}`} xPos={xPos} yPos={yPos} zPos={zPos} />);
+                newElectrons.push(<Electron ref={portalRefs[index]} key={`electron-${value}-${index}`} xPos={xPos} yPos={yPos} zPos={zPos} />);
             }
         });
         setElectrons([...newElectrons]);
-    }, [props.element.electronAmount]);
+    }, [props.element.number, props.element.shells]);
 
     useFrame((_state, delta) => {
         if (atomRef.current && coreRef.current && portalRefs.length > 0) {
@@ -66,35 +64,34 @@ function Atom(props: AtomProps) {
 
     useEffect(() => {
         const elem: Element = props.element;
-
-        if (elem.atomicNumber > 1) {
-            const coreOrder = [];
-            for (let i = 0; i < elem.atomicNumber * 2; i++) {
-                coreOrder.push(i < elem.atomicNumber ? 1 : 0);
-            }
-            coreOrder.sort(() => Math.random() - 0.5);
-
-            const newCore: JSX.Element[] = [];
-            const phi = Math.PI * (3 - Math.sqrt(5));
-            const amount = coreOrder.length;
-            coreOrder.forEach((value, index) => {
-                const yPos = 1 - (index / (amount - 1) * 2.3) * 2;
-                const radius = Math.sqrt(1 - yPos * yPos);
-                const theta = phi * index;
-                const xPos = Math.cos(theta) * radius;
-                const zPos = Math.sin(theta) * radius;
-
-                if (value === 1) {
-                    newCore.push(<Proton key={`core-${index}`} xPos={xPos} yPos={yPos} zPos={zPos} />);
-                } else {
-                    newCore.push(<Neutron key={`core-${index}`} xPos={xPos} yPos={yPos} zPos={zPos} />);
-                }
-            });
-            setCore([...newCore]);
-        } else {
-            setCore([<Proton xPos={0} yPos={0} zPos={0} />]);
+        const coreOrder = [];
+        for (let i = 0; i < elem.number; i++) {
+            coreOrder.push(1);
         }
-    }, [props.element.atomicNumber]);
+        const neutrons = Math.round(elem.atomic_mass) - elem.number;
+        for (let i = 0; i < neutrons; i++) {
+            coreOrder.push(0);
+        }
+        coreOrder.sort(() => Math.random() - 0.5);
+
+        const newCore: JSX.Element[] = [];
+        const phi = Math.PI * (3 - Math.sqrt(5));
+        const amount = coreOrder.length;
+        coreOrder.forEach((value, index) => {
+            const yPos = amount == 1 ? 0 : 1 - (index / (amount - 1)) * 2;
+            const radius = Math.sqrt(1 - yPos * yPos);
+            const theta = phi * index;
+            const xPos = amount == 1 ? 0 : Math.cos(theta) * radius;
+            const zPos = amount == 1 ? 0 : Math.sin(theta) * radius;
+
+            if (value === 1) {
+                newCore.push(<Proton key={`core-${index}`} xPos={xPos} yPos={yPos} zPos={zPos} />);
+            } else {
+                newCore.push(<Neutron key={`core-${index}`} xPos={xPos} yPos={yPos} zPos={zPos} />);
+            }
+        });
+        setCore([...newCore]);
+    }, [props.element]);
 
     return (
         <group ref={atomRef}>
